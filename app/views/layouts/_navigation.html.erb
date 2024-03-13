@@ -1,3 +1,19 @@
-<div class="bg-red-300">
-  Navigation
+<div class="navigation">
+  <div class="brand">
+    Track-er
+  </div>
+  <ul>
+    <% if user_signed_in? %>
+      <li>
+        <%= link_to "Playlists", playlists_path, class: "#{active_path(playlists_path)}" %>
+      </li>
+      <li>
+        <%= link_to "Logout", destroy_user_session_path %>
+      </li>
+    <% else %>
+      <li>
+        <%= link_to "Login", new_user_session_path, class: "#{active_path(new_user_session_path)}" %>
+      </li>
+    <% end %>
+  </ul>
 </div>

@@ -13,3 +13,49 @@
  *= require_tree .
  *= require_self
  */
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.navigation {
+  height: 36px;
+  background-color: cornsilk;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .brand {
+    font-size: 18px;
+    padding-left: 10px;
+    font-weight: 700;
+  }
+
+  ul {
+    margin-right: 10px;
+    list-style: none;
+    
+    li {
+      display: inline-block;
+      margin-left: 10px;
+
+      .active {
+        color: orange;
+        font-weight: 500;
+      }
+
+      a {
+        color: black;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.active {
+  color: white;
+  font-weight: 500;
+}
