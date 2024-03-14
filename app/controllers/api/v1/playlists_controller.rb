@@ -23,6 +23,10 @@ module Api
         end
       end
 
+      def update
+        # TODO: activate deactivate playlist
+      end
+
       def destroy
         @playlist.destroy
 
@@ -38,7 +42,7 @@ module Api
       end
 
       def playlist_params
-        params.require(:playlist).permit(:name)
+        params.require(:playlist).permit(:name, :active)
       end
     end
   end
