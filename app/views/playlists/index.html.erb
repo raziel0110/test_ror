@@ -5,6 +5,7 @@
     <%= count += i %>.
     <%= playlist.name %>
     <%= button_to button_text(playlist), playlist_path(playlist.id), :disabled => playlist.active, :method => :patch %>
+    <%= button_to 'Remove', playlist_path(playlist.id), :method => :delete %>
   </div>
 <% end %>
 

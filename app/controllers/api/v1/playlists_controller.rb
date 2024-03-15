@@ -1,10 +1,13 @@
 module Api
   module V1
     class PlaylistsController < ApplicationController
+      # TODO: Add API login along side web authentication in order to be allowed to upload file
+
       include Concerns::NotFound
+      include Concerns::HasPlaylist
 
       skip_before_action :verify_authenticity_token
-      before_action :set_playlist, only: [:destroy]
+      before_action :set_playlist, only: [:destroy, :update, :show]
 
       def index
         @playlists = Playlist.by_recently_created
@@ -13,8 +16,8 @@ module Api
       end
 
       def create
-        # TODO: Add API login along side web authentication in order to be allowed to upload file
-        playlist = Playlist.create(playlist_params)
+        set_inactive
+        playlist = Playlist.new(playlist_params.merge(active: true))
 
         if playlist.save
           render json: playlist, serialize: PlaylistSerializer, status: 201
@@ -24,7 +27,10 @@ module Api
       end
 
       def update
-        # TODO: activate deactivate playlist
+        set_inactive
+        @playlist.update_attribute(:active, true)
+
+        render json: @playlist, serialize: PlaylistSerializer, status: 200
       end
 
       def destroy
@@ -33,16 +39,16 @@ module Api
         render json: { message: "Playlist destroyed" }, status: 200
       end
 
+      def show
+        # used for display Audio songs
+      end
+
       private
 
       def set_playlist
         @playlist = Playlist.find(params[:id])
       rescue ActiveRecord::RecordNotFound
         handle_not_found
-      end
-
-      def playlist_params
-        params.require(:playlist).permit(:name, :active)
       end
     end
   end

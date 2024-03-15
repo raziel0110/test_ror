@@ -1,6 +1,8 @@
 class PlaylistsController < ApplicationController
+  include Concerns::HasPlaylist
+
   before_action :authenticate_user!
-  before_action :set_playlist, only: [:update]
+  before_action :set_playlist, only: [:update, :show, :destroy]
 
   def index
     @playlists = Playlist.by_recently_created
@@ -9,7 +11,6 @@ class PlaylistsController < ApplicationController
   end
 
   def create
-    # deactivate all playlists
     set_inactive
 
     @playlist = Playlist.new(playlist_params.merge(active: true))
@@ -30,17 +31,20 @@ class PlaylistsController < ApplicationController
     redirect_to playlists_path
   end
 
-  private
-
-  def playlist_params
-    params.require(:playlist).permit(:name, :active, :created_at)
+  def show
+    # used for diplay Playlist page, where the user will add songs
   end
+
+  def destroy
+    @playlist.destroy
+
+    flash[:notice] = "Playlist deleted!"
+    redirect_to playlists_path
+  end
+
+  private
 
   def set_playlist
     @playlist = Playlist.find(params[:id])
-  end
-
-  def set_inactive
-    Playlist.all.update_all(active: false)
   end
 end
