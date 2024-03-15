@@ -5,7 +5,7 @@ class PlaylistsController < ApplicationController
   before_action :set_playlist, only: [:update, :show, :destroy]
 
   def index
-    @playlists = Playlist.by_recently_created
+    @playlists = Playlist.by_recently_created.where(user_id: current_user.id)
 
     render
   end
@@ -13,7 +13,7 @@ class PlaylistsController < ApplicationController
   def create
     set_inactive
 
-    @playlist = Playlist.new(playlist_params.merge(active: true))
+    @playlist = Playlist.new(playlist_params.merge(active: true, user_id: current_user.id))
 
     if @playlist.save
       redirect_to playlists_path, notice: "Playlist created"

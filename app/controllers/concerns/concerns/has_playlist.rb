@@ -5,7 +5,7 @@ module Concerns
     private
 
     def playlist_params
-      params.require(:playlist).permit(:name, :active, :created_at)
+      params.require(:playlist).permit(:name, :active, :created_at, :user_id)
     end
 
     def set_inactive
