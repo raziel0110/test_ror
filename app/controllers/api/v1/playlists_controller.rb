@@ -17,7 +17,7 @@ module Api
 
       def create
         set_inactive
-        playlist = Playlist.new(playlist_params.merge(active: true))
+        playlist = Playlist.new(playlist_params.merge(active: true, user_id: User.first.id))
 
         if playlist.save
           render json: playlist, serialize: PlaylistSerializer, status: 201
