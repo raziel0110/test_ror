@@ -1,1 +1,12 @@
 <h1>Playlists</h1>
+<% count = 1 %>
+<% @playlists.each_with_index do |playlist, i| %>
+  <div>
+    <%= count += i %>.
+    <%= playlist.name %>
+    <%= button_to button_text(playlist), playlist_path(playlist.id), :disabled => playlist.active, :method => :patch %>
+    <%= button_to 'Remove', playlist_path(playlist.id), :method => :delete %>
+  </div>
+<% end %>
+
+<%= render "playlists/form" %>
